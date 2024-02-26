@@ -13,7 +13,7 @@ import uniandes.dpoo.aerolinea.exceptions.AeropuertoDuplicadoException;
 public class Aeropuerto
 {
     // TODO completar
-    
+	 private static final int RADIO_TERRESTRE = 6472;
 
     /**
      * Este método calcula la distancia *aproximada* entre dos aeropuertos. Hay fórmulas más precisas pero esta es suficientemente buena para el caso de la aerolínea.

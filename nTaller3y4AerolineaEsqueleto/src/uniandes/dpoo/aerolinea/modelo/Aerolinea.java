@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
+import java.time.LocalDate;
 import uniandes.dpoo.aerolinea.exceptions.InformacionInconsistenteException;
 import uniandes.dpoo.aerolinea.exceptions.VueloSobrevendidoException;
 import uniandes.dpoo.aerolinea.modelo.cliente.Cliente;
@@ -16,12 +16,7 @@ import uniandes.dpoo.aerolinea.persistencia.IPersistenciaAerolinea;
 import uniandes.dpoo.aerolinea.persistencia.IPersistenciaTiquetes;
 import uniandes.dpoo.aerolinea.persistencia.TipoInvalidoException;
 import uniandes.dpoo.aerolinea.tiquetes.Tiquete;
-import java.util.Map;
 
-import uniandes.dpoo.aerolinea.modelo.cliente.ClienteCorporativo;
-
-import java.util.HashMap;
-import java.util.LinkedList;
 /**
  * En esta clase se organizan todos los aspectos relacionados con una Aerolínea.
  * 
@@ -230,6 +225,13 @@ public class Aerolinea
     public void salvarAerolinea( String archivo, String tipoArchivo ) throws TipoInvalidoException, IOException
     {
         // TODO implementar
+    	throws TipoInvalidoException, IOException {
+
+
+            String contenido = generarContenidoParaArchivo(); // Método ficticio, deberías implementarlo según tu estructura de datos.
+
+            Files.writeString(Path.of(archivo), contenido, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        }
     }
 
     /**
@@ -280,7 +282,17 @@ public class Aerolinea
     public void programarVuelo( String fecha, String codigoRuta, String nombreAvion ) throws Exception
     {
         // TODO Implementar el método
+    	if (avionEstaOcupadoEnIntervalo(nombreAvion, fecha)) {
+            throw new Exception("El avión seleccionado ya está ocupado en ese intervalo de tiempo.");
+        }
+
+        Avion avionSeleccionado = obtenerAvionPorNombre(nombreAvion);
+        Ruta rutaSeleccionada = obtenerRutaPorCodigo(codigoRuta);
+
+        Vuelo nuevoVuelo = new Vuelo(fecha, rutaSeleccionada, avionSeleccionado);
+        vuelos.add(nuevoVuelo);
     }
+    
 
     /**
      * Vende una cierta cantidad de tiquetes para un vuelo, verificando que la información sea correcta.
@@ -308,9 +320,25 @@ public class Aerolinea
      * @param fecha La fecha del vuelo
      * @param codigoRuta El código de la ruta que recorrió el vuelo
      */
-    public void registrarVueloRealizado( String fecha, String codigoRuta )
-    {
-        // TODO Implementar el método
+    public void registrarVueloRealizado( LocalDate fecha, String codigoRuta) {
+
+        Vuelo vueloRealizado = buscarVuelo(fecha, codigoRuta);
+
+        if (vueloRealizado != null) {
+          
+            vueloRealizado.registrarComoRealizado(); 
+        } else {
+
+            System.out.println("No se encontró el vuelo correspondiente a la fecha y código de ruta proporcionados.");
+        }
+    }
+    private Vuelo buscarVuelo(LocalDate fecha, String codigoRuta) {
+        for (Vuelo vuelo : vuelos) {
+            if (vuelo.getFecha().equals(fecha) && vuelo.getRuta().getCodigo().equals(codigoRuta)) {
+                return vuelo;
+            }
+        }
+        return null; 
     }
 
     /**
