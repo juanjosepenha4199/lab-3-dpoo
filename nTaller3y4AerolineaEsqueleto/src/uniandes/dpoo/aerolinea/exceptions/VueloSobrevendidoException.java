@@ -9,9 +9,9 @@ import uniandes.dpoo.aerolinea.modelo.Vuelo;
 public class VueloSobrevendidoException extends Exception
 {
 
-    public VueloSobrevendidoException( Vuelo vuelo )
+    public VueloSobrevendidoException( String string )
     {
-        super( "El vuelo " + vuelo.getRuta( ).getCodigoRuta( ) + " del " + vuelo.getFecha( ) + " no tiene cupo" );
+        super( "El vuelo " + string.getRuta( ).getCodigoRuta( ) + " del " + string.getFecha( ) + " no tiene cupo" );
     }
 
 }

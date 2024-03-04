@@ -1,5 +1,7 @@
 package uniandes.dpoo.aerolinea.modelo;
 
+import uniandes.dpoo.aerolinea.modelo.cliente.Cliente;
+
 /**
  * Esta clase tiene la información de una ruta entre dos aeropuertos que cubre una aerolínea.
  */
@@ -62,11 +64,24 @@ public class Ruta
 	 * @param horaCompleta Una cadena con una hora, donde los minutos siempre ocupan los dos últimos caracteres
 	 * @return Una cantidad de horas entre 0 y 23
 	 */
-	public static int getHoras( String horaCompleta )
-	{
-		int horas = Integer.parseInt( horaCompleta ) / 100;
-		return horas;
+	 public static int getHoras( String horaCompleta )
+	    {
+	        int horas = Integer.parseInt( horaCompleta ) / 100;
+	        return horas;
+	    }
+	    
+	    public int getDuracion() {
+	        int horasSalida = Integer.parseInt(horaSalida.substring(0, 2));
+	        int minutosSalida = Integer.parseInt(horaSalida.substring(2));
+	        int horasLlegada = Integer.parseInt(horaLlegada.substring(0, 2));
+	        int minutosLlegada = Integer.parseInt(horaLlegada.substring(2));
+	        int duracionHoras = horasLlegada - horasSalida;
+	        int duracionMinutos = minutosLlegada - minutosSalida;
+	        return duracionHoras * 60 + duracionMinutos;
+	    }
+
+		public int calcularTarifa(Cliente cliente, String fecha) {
+
+			return 0;
+		}
 	}
-
-
-}

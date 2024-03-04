@@ -48,6 +48,7 @@ public class GeneradorTiquetes
     public static void registrarTiquete( Tiquete unTiquete )
     {
         // TODO implementar
+    	unTiquete.setVendido(true);
     }
 
     /**
@@ -58,6 +59,15 @@ public class GeneradorTiquetes
     public static boolean validarTiquete( String codigoTiquete )
     {
         // TODO implementar
+    	 for (Vuelo vuelo : vuelos) {
+             for (Tiquete tiquete : vuelo.getTiquetes()) {
+                 if (tiquete.getCodigo().equals(codigoTiquete)) {
+                     return true;  // Retorna true si se encuentra un tiquete con el código dado
+                 }
+             }
+         }
+         return false;  // Retorna false si no se encuentra ningún tiquete con el código dado
+     
         return false;
     }
 }
